@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  --color-border: hsl(35 20% 88%);
+  --color-input: hsl(35 20% 88%);
+  --color-ring: hsl(142 25% 33%);
+  --color-background: hsl(40 33% 96%);
+  --color-foreground: hsl(30 10% 15%);
+
+  --color-primary: hsl(142 25% 33%);
+  --color-primary-foreground: hsl(40 33% 96%);
+
+  --color-secondary: hsl(35 30% 88%);
+  --color-secondary-foreground: hsl(30 10% 25%);
+
+  --color-muted: hsl(40 20% 92%);
+  --color-muted-foreground: hsl(30 8% 50%);
+
+  --color-accent: hsl(30 40% 45%);
+  --color-accent-foreground: hsl(40 33% 96%);
+
+  --color-destructive: hsl(0 72% 51%);
+  --color-destructive-foreground: hsl(40 33% 96%);
+
+  --color-card: hsl(40 30% 98%);
+  --color-card-foreground: hsl(30 10% 15%);
+}
+
+:root {
+  --radius: 0.5rem;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  font-size: 85%; /* Natively scales down the entire UI */
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Animations matching original Pure Rooted project */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Animation Delays */
+.delay-75 {
+  animation-delay: 75ms;
+}
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-150 {
+  animation-delay: 150ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Micro-interaction & Hover Lift */
+.card-hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+/* Hide scrollbar */
+.scrollbar-none::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none,
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
