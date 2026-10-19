@@ -1,4 +1,4 @@
-import { Leaf, Sparkles, Heart, ShieldCheck, Mail, MapPin } from "lucide-react";
+import { Leaf, Sparkles, ShieldCheck, Mail, MapPin } from "lucide-react";
 
 export default function About() {
   return (

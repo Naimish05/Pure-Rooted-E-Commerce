@@ -13,7 +13,7 @@ function isTokenExpired(token) {
     if (parts.length < 2) return true;
     const payload = JSON.parse(atob(parts[1]));
     return !payload.exp || payload.exp * 1000 <= Date.now() + 30000;
-  } catch (e) {
+  } catch {
     return true;
   }
 }
@@ -40,7 +40,7 @@ export async function getValidToken() {
         localStorage.removeItem("neon_jwt_token");
         localStorage.removeItem("neon_user");
       }
-    } catch (e) {
+    } catch {
       localStorage.removeItem("neon_jwt_token");
     }
   }

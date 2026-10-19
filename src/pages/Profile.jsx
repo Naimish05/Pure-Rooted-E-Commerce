@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getNeonClient } from "../api/neon";
-import { User, Package, Calendar, Clock, LogOut, ArrowRight, Shield } from "lucide-react";
+import { User, Package, Calendar, LogOut, ArrowRight, Shield } from "lucide-react";
 
 export default function Profile() {
   const { user, profile, isAdmin, logout } = useAuth();

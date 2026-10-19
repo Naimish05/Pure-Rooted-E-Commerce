@@ -7,7 +7,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem("pure_rooted_cart");
       return saved ? JSON.parse(saved) : [];
-    } catch (e) {
+    } catch {
       return [];
     }
   });

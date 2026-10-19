@@ -1,5 +1,5 @@
 import { useCart } from "../context/CartContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 
 export default function CartDrawer() {

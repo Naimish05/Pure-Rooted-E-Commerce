@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getNeonClient } from "../api/neon";
@@ -12,19 +12,13 @@ import {
   AlertCircle,
   Shield,
   X,
-  TrendingUp,
   DollarSign,
   Tag,
   Search,
   Filter,
-  Check,
   RefreshCw,
   FolderPlus,
-  Layers,
-  Clock,
-  Truck,
-  CheckCircle2,
-  XCircle
+  Layers
 } from "lucide-react";
 
 export default function Admin() {
@@ -65,15 +59,11 @@ export default function Admin() {
   const [saveLoading, setSaveLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  useEffect(() => {
-    if (isAdmin) {
-      loadAllData();
-    }
-  }, [isAdmin]);
-
-  const loadAllData = async () => {
+  const loadAllData = useCallback(async (showSpinner = false) => {
     try {
-      setLoading(true);
+      if (showSpinner) {
+        setLoading(true);
+      }
       const client = await getNeonClient();
 
       // 1. Categories
@@ -111,7 +101,20 @@ export default function Admin() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    async function init() {
+      if (isAdmin && mounted) {
+        await loadAllData();
+      }
+    }
+    init();
+    return () => {
+      mounted = false;
+    };
+  }, [isAdmin, loadAllData]);
 
   // ==========================================
   // Category Handlers (Add & Delete)
@@ -144,7 +147,7 @@ export default function Admin() {
         slug: categoryFormData.slug || categoryFormData.name.toLowerCase().trim().replace(/\s+/g, "-"),
       };
 
-      const { data, error } = await client
+      const { error } = await client
         .from("categories")
         .insert([payload])
         .select();

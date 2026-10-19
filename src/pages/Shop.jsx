@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getNeonClient } from "../api/neon";
 import ProductCard from "../components/ProductCard";
-import { Filter, ShoppingBag } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 
 export default function Shop() {
   const [products, setProducts] = useState([]);

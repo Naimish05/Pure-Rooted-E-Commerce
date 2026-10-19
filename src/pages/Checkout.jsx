@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { getNeonClient } from "../api/neon";
@@ -8,7 +8,6 @@ import { ShoppingBag, CheckCircle, ShieldCheck, Truck, ArrowLeft } from "lucide-
 export default function Checkout() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const { user, profile } = useAuth();
-  const navigate = useNavigate();
 
   const [fullName, setFullName] = useState(profile?.full_name || user?.name || "");
   const [phone, setPhone] = useState("");

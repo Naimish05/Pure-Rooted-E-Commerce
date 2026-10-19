@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { getNeonClient } from "../api/neon";
 
 const AuthContext = createContext();
@@ -9,12 +9,24 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check current session on mount
-  useEffect(() => {
-    checkSession();
+  const fetchProfile = useCallback(async (currentUser) => {
+    try {
+      const client = await getNeonClient();
+      const { data } = await client
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .single();
+
+      if (data) {
+        setProfile(data);
+      }
+    } catch (e) {
+      console.warn("Profile fetch error:", e);
+    }
   }, []);
 
-  const checkSession = async () => {
+  const checkSession = useCallback(async () => {
     try {
       const res = await fetch(`${AUTH_URL}/get-session`, {
         credentials: "include",
@@ -40,24 +52,21 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("neon_user");
     localStorage.removeItem("neon_jwt_token");
     setLoading(false);
-  };
+  }, [fetchProfile]);
 
-  const fetchProfile = async (currentUser) => {
-    try {
-      const client = await getNeonClient();
-      const { data } = await client
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .single();
-
-      if (data) {
-        setProfile(data);
+  // Check current session on mount
+  useEffect(() => {
+    let mounted = true;
+    async function init() {
+      if (mounted) {
+        await checkSession();
       }
-    } catch (e) {
-      console.warn("Profile fetch error:", e);
     }
-  };
+    init();
+    return () => {
+      mounted = false;
+    };
+  }, [checkSession]);
 
   const login = async (email, password) => {
     const res = await fetch(`${AUTH_URL}/sign-in/email`, {
@@ -87,7 +96,9 @@ export function AuthProvider({ children }) {
             localStorage.setItem("neon_jwt_token", tData.token);
           }
         }
-      } catch (e) {}
+      } catch (err) {
+        console.debug("Failed to fetch initial JWT token:", err);
+      }
 
       await fetchProfile(data.user);
     }
@@ -121,7 +132,9 @@ export function AuthProvider({ children }) {
           email: email,
           role: "user",
         });
-      } catch (e) {}
+      } catch (err) {
+        console.warn("Failed to create user profile row:", err);
+      }
     }
 
     return data;
@@ -133,7 +146,9 @@ export function AuthProvider({ children }) {
         method: "POST",
         credentials: "include",
       });
-    } catch (e) {}
+    } catch (err) {
+      console.debug("Sign out network error:", err);
+    }
 
     setUser(null);
     setProfile(null);
