@@ -667,7 +667,7 @@ export default function Admin() {
                               className="h-10 w-10 rounded-lg object-cover border border-border shrink-0 bg-muted/20"
                             />
                             <div className="min-w-0">
-                              <span className="font-semibold text-foreground block truncate max-w-[200px] md:max-w-[280px]">
+                              <span className="font-semibold text-foreground block truncate max-w-50 md:max-w-70">
                                 {p.title}
                               </span>
                               <span className="text-[10px] font-mono text-muted-foreground">
@@ -891,7 +891,7 @@ export default function Admin() {
                           )}
                         </td>
                         <td className="py-3.5 px-4">
-                          <span className="text-foreground block truncate max-w-[200px]">
+                          <span className="text-foreground block truncate max-w-50">
                             {o.address}
                           </span>
                           <span className="text-[10px] text-muted-foreground">

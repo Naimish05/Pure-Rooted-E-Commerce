@@ -9,7 +9,7 @@ export default function CartDrawer() {
   if (!isCartOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex justify-end">
+    <div className="fixed inset-0 z-60 flex justify-end">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-xs animate-fade-in"
@@ -17,7 +17,7 @@ export default function CartDrawer() {
       />
 
       {/* Drawer Content */}
-      <div className="relative z-[70] w-full max-w-md h-full bg-card shadow-2xl flex flex-col animate-slide-in-right">
+      <div className="relative z-70 w-full max-w-md h-full bg-card shadow-2xl flex flex-col animate-slide-in-right">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-2">

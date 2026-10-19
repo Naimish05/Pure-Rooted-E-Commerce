@@ -28,6 +28,7 @@ lerna-debug.log*
 
 # Editor & System Files
 .vscode/*
+!.vscode/settings.json
 !.vscode/extensions.json
 .idea/
 *.suo
