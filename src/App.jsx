@@ -18,6 +18,7 @@ const Checkout = lazy(() => import("./pages/Checkout"));
 const Profile = lazy(() => import("./pages/Profile"));
 const About = lazy(() => import("./pages/About"));
 const Admin = lazy(() => import("./pages/Admin"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 function PageLoadingFallback() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/admin" element={<Admin />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
                 </Routes>
               </Suspense>
             </main>

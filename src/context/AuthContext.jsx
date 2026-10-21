@@ -69,11 +69,12 @@ export function AuthProvider({ children }) {
   }, [checkSession]);
 
   const login = async (email, password) => {
+    const cleanEmail = (email || "").trim().toLowerCase();
     const res = await fetch(`${AUTH_URL}/sign-in/email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email: cleanEmail, password }),
     });
 
     const data = await res.json();
@@ -107,11 +108,13 @@ export function AuthProvider({ children }) {
   };
 
   const signup = async (email, password, fullName) => {
+    const cleanEmail = (email || "").trim().toLowerCase();
+    const cleanName = (fullName || "").trim();
     const res = await fetch(`${AUTH_URL}/sign-up/email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ email, password, name: fullName }),
+      body: JSON.stringify({ email: cleanEmail, password, name: cleanName }),
     });
 
     const data = await res.json();
@@ -128,8 +131,8 @@ export function AuthProvider({ children }) {
         const client = await getNeonClient();
         await client.from("profiles").upsert({
           id: data.user.id,
-          full_name: fullName,
-          email: email,
+          full_name: cleanName,
+          email: cleanEmail,
           role: "user",
         });
       } catch (err) {
@@ -137,6 +140,36 @@ export function AuthProvider({ children }) {
       }
     }
 
+    return data;
+  };
+
+  const requestPasswordReset = async (email) => {
+    const cleanEmail = (email || "").trim().toLowerCase();
+    const redirectTo = `${window.location.origin}/reset-password`;
+    const res = await fetch(`${AUTH_URL}/request-password-reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: cleanEmail, redirectTo }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to request password reset");
+    }
+    return data;
+  };
+
+  const resetPassword = async (token, newPassword) => {
+    const res = await fetch(`${AUTH_URL}/reset-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, newPassword }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to reset password");
+    }
     return data;
   };
 
@@ -169,6 +202,8 @@ export function AuthProvider({ children }) {
         loading,
         login,
         signup,
+        requestPasswordReset,
+        resetPassword,
         logout,
         refreshSession: checkSession,
       }}
