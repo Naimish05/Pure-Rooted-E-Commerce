@@ -48,7 +48,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
-        <div className="container mx-auto px-4 relative z-10 flex min-h-[500px] flex-col items-center justify-center py-20 text-center">
+        <div className="container mx-auto px-4 relative z-10 flex min-h-125 flex-col items-center justify-center py-20 text-center">
           <h1 className="max-w-3xl font-heading text-4xl font-bold text-white md:text-6xl drop-shadow-xs animate-fade-in">
             Wellness, <span className="italic text-secondary">Rooted</span> in Nature
           </h1>
